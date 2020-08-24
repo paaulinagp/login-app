@@ -1,4 +1,4 @@
-<div class="limiter">
+<div class="limiter animated fadeInRight" >
         <div class="container-login100">
             <div class="wrap-login100 p-t-50 p-b-90">
                 <form (ngSubmit)="onSubmit(formRegistro)" 
@@ -9,7 +9,12 @@
                         Crear nueva cuenta
                     </span>
     
-                    <!-- <span class="text-danger">El correo es obligatorio</span> -->
+                    <span 
+                        *ngIf="formRegistro.submitted && formRegistro.controls['email'].errors" 
+                        class="text-danger animated fadeIn"
+                    >
+                        El correo es obligatorio
+                    </span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100" 
                                type="email" 
@@ -22,11 +27,14 @@
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- <span class="text-danger">El nombre es obligatorio</span> -->
+                    <span 
+                        *ngIf="formRegistro.submitted && formRegistro.controls['name'].errors" 
+                        class="text-danger animated fadeIn"
+                    >El nombre es obligatorio</span>
                     <div class="wrap-input100 m-b-16">
                         <input class="input100" 
                                type="text" 
-                               name="nombre" 
+                               name="name" 
                                [(ngModel)]="user.name"
                                required
                                minlength="2"
@@ -35,11 +43,14 @@
                         <span class="focus-input100"></span>
                     </div>
                     
-                    <!-- <span class="text-danger">La contraseña debe de ser más de 6 letras</span> -->
+                    <span 
+                        *ngIf="formRegistro.submitted && formRegistro.controls['password'].errors" 
+                        class="text-danger animated fadeIn"
+                    >La contraseña debe de ser más de 6 letras</span>
                     <div class="wrap-input100 m-b-16" data-validate = "Password is required">
                         <input class="input100"
                                type="password" 
-                               name="pass"
+                               name="password"
                                [(ngModel)]="user.password" 
                                required
                                minlength="6"
@@ -56,7 +67,7 @@
                         </div>
     
                         <div>
-                            <a routerLink="/registro" class="txt1">
+                            <a routerLink="/login" class="txt1">
                                 ¿Ya tienes cuenta? / Ingresar
                             </a>
                         </div>
