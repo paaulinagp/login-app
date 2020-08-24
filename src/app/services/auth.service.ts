@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 export class AuthService {
   private url = "https://identitytoolkit.googleapis.com/v1/accounts:";
   private APIKEY = "AIzaSyB23l41CkGiYqNMqkBFp0J1ZEJOYn5utnk";
-  token: string;
+  token: string = "";
 
   constructor(private http: HttpClient) {}
 
@@ -44,11 +44,17 @@ export class AuthService {
       );
   }
 
-  logout(): void {}
+  logout(): void {
+    localStorage.removeItem("token");
+  }
 
   private setToken(token: string) {
     this.token = token;
     localStorage.setItem("token", this.token);
+
+    let today = new Date();
+    today.setSeconds(3600);
+    localStorage.setItem("expiration", today.getTime().toString());
   }
 
   getToken() {
@@ -59,5 +65,15 @@ export class AuthService {
     }
 
     return this.token;
+  }
+
+  isAuthenticated(): boolean {
+    if (this.getToken().length < 2) {
+      return false;
+    }
+    const expiration = Number(localStorage.getItem("expiration"));
+    const expirationDate = new Date();
+    expirationDate.setTime(expiration);
+    return expirationDate > new Date();
   }
 }
