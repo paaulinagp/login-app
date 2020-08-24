@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { UserModel } from "src/app/models/user.model";
 import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
+
+import swal from "sweetalert";
+import { UserModel } from "src/app/models/user.model";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
@@ -11,7 +14,7 @@ import { AuthService } from "src/app/services/auth.service";
 export class RegistroComponent implements OnInit {
   user: UserModel;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.user = new UserModel();
@@ -19,14 +22,23 @@ export class RegistroComponent implements OnInit {
   }
   onSubmit(form: NgForm) {
     if (form.invalid) {
+      console.log("Es inválido");
       return;
     }
+    swal({
+      title: "Espere un momento",
+      text: "...",
+      icon: "info",
+      button: false,
+      closeOnClickOutside: false,
+    });
     this.auth.newUser(this.user).subscribe(
       (res) => {
-        console.log("respuesta: ", res);
+        swal.close();
+        this.router.navigateByUrl("/home");
       },
       (err) => {
-        console.log(err.error.error);
+        swal("Oops", err.error.error.message, "error");
       }
     );
   }
