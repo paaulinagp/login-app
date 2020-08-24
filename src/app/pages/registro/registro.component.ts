@@ -13,12 +13,12 @@ import { AuthService } from "src/app/services/auth.service";
 })
 export class RegistroComponent implements OnInit {
   user: UserModel;
+  remember: boolean = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.user = new UserModel();
-    this.user.email = "paaulinagp@gmail.com";
   }
   onSubmit(form: NgForm) {
     if (form.invalid) {
@@ -36,6 +36,9 @@ export class RegistroComponent implements OnInit {
     this.auth.newUser(this.user).subscribe(
       (res) => {
         swal.close();
+        if (this.remember) {
+          localStorage.setItem("email", this.user.email);
+        }
         this.router.navigateByUrl("/home");
       },
       (err) => {
