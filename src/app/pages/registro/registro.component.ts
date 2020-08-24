@@ -25,13 +25,14 @@ export class RegistroComponent implements OnInit {
       console.log("Es inválido");
       return;
     }
-    swal({
-      title: "Espere un momento",
-      text: "...",
-      icon: "info",
-      button: false,
-      closeOnClickOutside: false,
-    });
+    // swal({
+    //   title: "Espere un momento",
+    //   text: "...",
+    //   icon: "info",
+    //   button: false,
+    //   closeOnClickOutside: false,
+    // });
+    swal("Esperando", "....", "success");
     this.auth.newUser(this.user).subscribe(
       (res) => {
         swal.close();
